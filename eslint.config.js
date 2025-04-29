@@ -25,6 +25,8 @@ module.exports = tseslint.config(
       "jest.config.ts",
       "babel.config.js",
       "metro.config.js",
+      ".expo/**/*",
+      "coverage/**/*",
     ],
     languageOptions: {
       parser: tseslint.parser,
