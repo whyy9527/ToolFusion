@@ -19,25 +19,25 @@
 - **LocalTool**：通过 CreateTool 对话创建的本地工具描述对象
 - **ToolRegistry**：保存所有 LocalTool 的索引与元数据
 - **Workflow Composer**：可视化拼图界面，用户将工具拖拽组合成工作流
-- **内置工具（默认提供）**  
-  - DeepSeek 对话工具  
-  - Qwen 图像识别工具  
-  - Qwen 图像生成工具  
-  - ChainAgent （链式拆解‑生成‑自评）工具  
+- **内置工具（默认提供）**
+  - DeepSeek 对话工具
+  - Qwen 图像识别工具
+  - Qwen 图像生成工具
+  - ChainAgent （链式拆解‑生成‑自评）工具
   - ExpertReview 评分工具
 
 > 任何新能力都以 LocalTool 形式加入注册表，再在 Workflow Composer 中拼装。
 
 ## 4 主要功能模块
 
-| 模块 | 关键功能 | 依赖 |
-|-----|---------|------|
-|Tool Registry| 本地 JSON 索引，增删改查 LocalTool | Storage |
-|CreateTool 生成器| 对话式创建 LocalTool (封面+配置+prompt) | Chat Core |
-|Workflow Composer| 拼图式拖拽连接工具，生成可执行工作流 | Tool Registry |
-|Chat Core| 使用 Tool 调用完成对话、Markdown 渲染、R1 思考展示 | Tool Registry |
-|History & Storage| 聊天/工作流记录缓存、AI 生成标题、抽屉切换 | Chat Core |
-|App Widget| 快速入口：一键触发工作流或创建工具 | Tool Registry |
+| 模块              | 关键功能                                           | 依赖          |
+| ----------------- | -------------------------------------------------- | ------------- |
+| Tool Registry     | 本地 JSON 索引，增删改查 LocalTool                 | Storage       |
+| CreateTool 生成器 | 对话式创建 LocalTool (封面+配置+prompt)            | Chat Core     |
+| Workflow Composer | 拼图式拖拽连接工具，生成可执行工作流               | Tool Registry |
+| Chat Core         | 使用 Tool 调用完成对话、Markdown 渲染、R1 思考展示 | Tool Registry |
+| History & Storage | 聊天/工作流记录缓存、AI 生成标题、抽屉切换         | Chat Core     |
+| App Widget        | 快速入口：一键触发工作流或创建工具                 | Tool Registry |
 
 ## 5 LocalTool 配置字段
 
@@ -46,15 +46,15 @@ interface LocalTool {
   id: string;
   name: string;
   description: string;
-  persona: string;      // 使用者画像
-  level: 'novice' | 'intermediate' | 'expert' | 'random';
+  persona: string; // 使用者画像
+  level: "novice" | "intermediate" | "expert" | "random";
   useCase: string;
   capabilities: string[]; // deepseek_chat | image_recognition | image_generate | chain_agent | expert_review …
-  outputFormat: 'markdown' | 'list' | 'table' | 'image_mixed';
+  outputFormat: "markdown" | "list" | "table" | "image_mixed";
   tone: string;
-  thinkingMode: string;   // forward, backward, Q&A, SWOT…
+  thinkingMode: string; // forward, backward, Q&A, SWOT…
   basePromptTemplate: string;
-  coverImage: string;     // base64/uri
+  coverImage: string; // base64/uri
   createdAt: string;
 }
 ```
@@ -80,15 +80,15 @@ interface LocalTool {
 
 ## 7 MVP 里程碑（25 天计划，聚焦工具 & 拼图）
 
-| Sprint | 天数 | 交付重点 |
-|--------|-----|----------|
-|0 – 架构| 1‑2 | ToolRegistry + 技术目录结构 + CI |
-|1 – CreateTool & Widget MVP| 3‑6 | 对话式创建工具 + Widget 入口 |
-|2 – Workflow Composer v1| 7‑10 | 拼图式界面 + 工作流执行管线 |
-|3 – 内置工具整合| 11‑14 | DeepSeek / Qwen 工具封装注册 |
-|4 – ChainAgent & ExpertReview| 15‑18 | 链式 Agent 工具化 + 评分工具化 |
-|5 – 历史记录 & 思考展示| 19‑22 | 工作流执行历史缓存 + R1 思路展示 |
-|6 – 验收| 23‑25 | 回归测试、App Widget 上架准备 |
+| Sprint                        | 天数   | 交付重点                         |
+| ----------------------------- | ------ | -------------------------------- |
+| 0 – 架构                      |  1‑2   | ToolRegistry + 技术目录结构 + CI |
+| 1 – CreateTool & Widget MVP   |  3‑6   | 对话式创建工具 + Widget 入口     |
+| 2 – Workflow Composer v1      |  7‑10  | 拼图式界面 + 工作流执行管线      |
+| 3 – 内置工具整合              |  11‑14 | DeepSeek / Qwen 工具封装注册     |
+| 4 – ChainAgent & ExpertReview |  15‑18 | 链式 Agent 工具化 + 评分工具化   |
+| 5 – 历史记录 & 思考展示       |  19‑22 | 工作流执行历史缓存 + R1 思路展示 |
+| 6 – 验收                      |  23‑25 | 回归测试、App Widget 上架准备    |
 
 ## 8 关键 UX 流程
 
@@ -112,6 +112,7 @@ interface LocalTool {
 5. TEST 编写工具创建与拼图执行用例
 
 ---
+
 > **备注**：本 v0.2 文档基于团队反馈更新，删除了个人化描述，突出“一切皆工具”与“小组件优先”的产品战略。
 
 # ToolFusion 项目启动文档
@@ -121,7 +122,7 @@ interface LocalTool {
 ---
 
 ## 0 开发者快捷启动 ⭐️
->
+
 > 仅需 **3 步** 即可在本地运行 ToolFusion MVP：
 
 ```bash
@@ -159,25 +160,25 @@ $ pnpm android                 # Android Emulator
 - **LocalTool**：通过 CreateTool 对话创建的本地工具描述对象
 - **ToolRegistry**：保存所有 LocalTool 的索引与元数据
 - **Workflow Composer**：可视化拼图界面，用户将工具拖拽组合成工作流
-- **内置工具（默认提供）**  
-  - DeepSeek 对话工具  
-  - Qwen 图像识别工具  
-  - Qwen 图像生成工具  
-  - ChainAgent （链式拆解‑生成‑自评）工具  
+- **内置工具（默认提供）**
+  - DeepSeek 对话工具
+  - Qwen 图像识别工具
+  - Qwen 图像生成工具
+  - ChainAgent （链式拆解‑生成‑自评）工具
   - ExpertReview 评分工具
 
 > 任何新能力都以 LocalTool 形式加入注册表，再在 Workflow Composer 中拼装。
 
 ## 4 主要功能模块
 
-| 模块 | 关键功能 | 依赖 |
-|-----|---------|------|
-|Tool Registry| 本地 JSON 索引，增删改查 LocalTool | Storage |
-|CreateTool 生成器| 对话式创建 LocalTool (封面+配置+prompt) | Chat Core |
-|Workflow Composer| 拼图式拖拽连接工具，生成可执行工作流 | Tool Registry |
-|Chat Core| 使用 Tool 调用完成对话、Markdown 渲染、R1 思考展示 | Tool Registry |
-|History & Storage| 聊天/工作流记录缓存、AI 生成标题、抽屉切换 | Chat Core |
-|App Widget| 快速入口：一键触发工作流或创建工具 | Tool Registry |
+| 模块              | 关键功能                                           | 依赖          |
+| ----------------- | -------------------------------------------------- | ------------- |
+| Tool Registry     | 本地 JSON 索引，增删改查 LocalTool                 | Storage       |
+| CreateTool 生成器 | 对话式创建 LocalTool (封面+配置+prompt)            | Chat Core     |
+| Workflow Composer | 拼图式拖拽连接工具，生成可执行工作流               | Tool Registry |
+| Chat Core         | 使用 Tool 调用完成对话、Markdown 渲染、R1 思考展示 | Tool Registry |
+| History & Storage | 聊天/工作流记录缓存、AI 生成标题、抽屉切换         | Chat Core     |
+| App Widget        | 快速入口：一键触发工作流或创建工具                 | Tool Registry |
 
 ## 5 LocalTool 配置字段
 
@@ -186,15 +187,15 @@ interface LocalTool {
   id: string;
   name: string;
   description: string;
-  persona: string;      // 使用者画像
-  level: 'novice' | 'intermediate' | 'expert' | 'random';
+  persona: string; // 使用者画像
+  level: "novice" | "intermediate" | "expert" | "random";
   useCase: string;
   capabilities: string[]; // deepseek_chat | image_recognition | image_generate | chain_agent | expert_review …
-  outputFormat: 'markdown' | 'list' | 'table' | 'image_mixed';
+  outputFormat: "markdown" | "list" | "table" | "image_mixed";
   tone: string;
-  thinkingMode: string;   // forward, backward, Q&A, SWOT…
+  thinkingMode: string; // forward, backward, Q&A, SWOT…
   basePromptTemplate: string;
-  coverImage: string;     // base64/uri
+  coverImage: string; // base64/uri
   createdAt: string;
 }
 ```
@@ -220,15 +221,15 @@ interface LocalTool {
 
 ## 7 MVP 里程碑（25 天计划，聚焦工具 & 拼图）
 
-| Sprint | 天数 | 交付重点 |
-|--------|-----|----------|
-|0 – 架构| 1‑2 | ToolRegistry + 技术目录结构 + CI |
-|1 – CreateTool & Widget MVP| 3‑6 | 对话式创建工具 + Widget 入口 |
-|2 – Workflow Composer v1| 7‑10 | 拼图式界面 + 工作流执行管线 |
-|3 – 内置工具整合| 11‑14 | DeepSeek / Qwen 工具封装注册 |
-|4 – ChainAgent & ExpertReview| 15‑18 | 链式 Agent 工具化 + 评分工具化 |
-|5 – 历史记录 & 思考展示| 19‑22 | 工作流执行历史缓存 + R1 思路展示 |
-|6 – 验收| 23‑25 | 回归测试、App Widget 上架准备 |
+| Sprint                        | 天数   | 交付重点                         |
+| ----------------------------- | ------ | -------------------------------- |
+| 0 – 架构                      |  1‑2   | ToolRegistry + 技术目录结构 + CI |
+| 1 – CreateTool & Widget MVP   |  3‑6   | 对话式创建工具 + Widget 入口     |
+| 2 – Workflow Composer v1      |  7‑10  | 拼图式界面 + 工作流执行管线      |
+| 3 – 内置工具整合              |  11‑14 | DeepSeek / Qwen 工具封装注册     |
+| 4 – ChainAgent & ExpertReview |  15‑18 | 链式 Agent 工具化 + 评分工具化   |
+| 5 – 历史记录 & 思考展示       |  19‑22 | 工作流执行历史缓存 + R1 思路展示 |
+| 6 – 验收                      |  23‑25 | 回归测试、App Widget 上架准备    |
 
 ## 8 关键 UX 流程
 
@@ -252,4 +253,5 @@ interface LocalTool {
 5. TEST 编写工具创建与拼图执行用例
 
 ---
+
 > **备注**：v0.3 新增 “开发者快捷启动” 章节，简化本地上手流程；其余内容沿用 v0.2。欢迎在 PR 中提出改进建议。
