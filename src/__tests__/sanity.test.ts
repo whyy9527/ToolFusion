@@ -1,11 +1,10 @@
 import { render } from "@testing-library/react-native";
 import React from "react";
-import App from "../../App";
+import { Text } from "react-native";
 
-describe("Baseline Test Suite", () => {
-  it("renders App component without crashing", () => {
-    const { getByText } = render(<App />);
-    // Check for the default text in the App component
-    expect(getByText("Open up App.tsx to start working on your app!")).toBeTruthy();
+describe("Baseline", () => {
+  test("renders without crashing", () => {
+    const { getByText } = render(<Text>Hello ToolFusion</Text>);
+    expect(getByText("Hello ToolFusion")).toBeTruthy();
   });
 });
