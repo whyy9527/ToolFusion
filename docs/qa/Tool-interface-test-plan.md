@@ -6,7 +6,7 @@ Location: `docs/qa/tool-interface-test-plan.md`
 
 ## 1 Scope
 
-This test plan focuses on **interface‑level contracts** between the *mobile client* and all **LocalTool Adapters** (DeepSeek, Qwen Vision, ChainAgent, ExpertReview). It validates:
+This test plan focuses on **interface‑level contracts** between the _mobile client_ and all **LocalTool Adapters** (DeepSeek, Qwen Vision, ChainAgent, ExpertReview). It validates:
 
 1. **Parameter schema** – required / optional / default / enum range
 2. **Error‑code mapping** – HTTP & business codes → user‑facing status
@@ -52,7 +52,7 @@ All new tool adapters **must ship with 100 % happy‑path + 100 % major‑er
 | **HTTP connect**    | 5                             | 2       | 1 s, 2 s  |
 | **Tool processing** | DeepSeek : 30Qwen Vision : 45 | 1       | fixed 3 s |
 
-All failures must surface a *typed* `ToolError` with `category`, `code`, `message` fields to the caller.
+All failures must surface a _typed_ `ToolError` with `category`, `code`, `message` fields to the caller.
 
 ---
 
@@ -60,9 +60,12 @@ All failures must surface a *typed* `ToolError` with `category`, `code`, `messag
 
 ```ts
 // ✅  Param schema – missing field triggers Zod error
-it('TC‑001 should reject when prompt is missing', () => {
-  expect(() => buildDeepSeekRequest({ /* no prompt */ }))
-    .toThrowError(/Validation:prompt/);
+it("TC‑001 should reject when prompt is missing", () => {
+  expect(() =>
+    buildDeepSeekRequest({
+      /* no prompt */
+    }),
+  ).toThrowError(/Validation:prompt/);
 });
 ```
 
@@ -70,26 +73,29 @@ it('TC‑001 should reject when prompt is missing', () => {
 // ✅  Timeout & retry – MSW delays response beyond limit
 it('TC‑006 should raise ToolError("timeout") after 2 retries', async () => {
   server.use(
-    rest.post('/deepseek/chat', (_req, res, ctx) =>
-      res(ctx.delay(15_000), ctx.json({}))
-    )
+    rest.post("/deepseek/chat", (_req, res, ctx) =>
+      res(ctx.delay(15_000), ctx.json({})),
+    ),
   );
-  await expect(callDeepSeek(validParams))
-    .rejects.toMatchObject({ category: 'timeout' });
+  await expect(callDeepSeek(validParams)).rejects.toMatchObject({
+    category: "timeout",
+  });
   expect(retrySpy).toHaveBeenCalledTimes(2);
 });
 ```
 
 ```ts
 // ✅  HTTP 4xx mapping – returns business error code
-it('TC‑003 maps DeepSeek 4001 to auth ToolError', async () => {
+it("TC‑003 maps DeepSeek 4001 to auth ToolError", async () => {
   server.use(
-    rest.post('/deepseek/chat', (_req, res, ctx) =>
-      res(ctx.status(400), ctx.json({ code: '4001', msg: 'invalid_key' }))
-    )
+    rest.post("/deepseek/chat", (_req, res, ctx) =>
+      res(ctx.status(400), ctx.json({ code: "4001", msg: "invalid_key" })),
+    ),
   );
-  await expect(callDeepSeek(validParams))
-    .rejects.toMatchObject({ category: 'auth', code: '4001' });
+  await expect(callDeepSeek(validParams)).rejects.toMatchObject({
+    category: "auth",
+    code: "4001",
+  });
 });
 ```
 

@@ -6,11 +6,11 @@
 
 ## 1 Job Matrix
 
-| Job Name | Purpose | Triggers |
-|----------|---------|----------|
-| **lint** | Run ESLint & Prettier checks to enforce code style | `pull_request`, `push` to `main`, `develop` |
-| **test** | Execute Jest unit tests and collect coverage | Same as **lint** |
-| **mock** | Spin up **Mock Adapter** (in‑memory) and run contract / integration tests that hit the Tool calling interface | Same as **lint** |
+| Job Name | Purpose                                                                                                       | Triggers                                    |
+| -------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| **lint** | Run ESLint & Prettier checks to enforce code style                                                            | `pull_request`, `push` to `main`, `develop` |
+| **test** | Execute Jest unit tests and collect coverage                                                                  | Same as **lint**                            |
+| **mock** | Spin up **Mock Adapter** (in‑memory) and run contract / integration tests that hit the Tool calling interface | Same as **lint**                            |
 
 > The **mock** job guarantees that front‑end devs can iterate without calling real DeepSeek/Qwen endpoints during PR review.
 
@@ -18,24 +18,24 @@
 
 ## 2 Runtime Requirements
 
-| Setting | Value |
-|---------|-------|
-| **Node.js** | **v20.x** (LTS) – aligns with Expo SDK 50 support |
-| **Package Manager** | pnpm 8+ |
+| Setting             | Value                                             |
+| ------------------- | ------------------------------------------------- |
+| **Node.js**         | **v20.x** (LTS) – aligns with Expo SDK 50 support |
+| **Package Manager** | pnpm 8+                                           |
 
 ### Why Node 20?
 
-* Expo EAS & React Native 0.74 officially test against Node 20.
-* Node 18 EOL is 2025‑04‑30 → future‑proof for MVP cycle.
+- Expo EAS & React Native 0.74 officially test against Node 20.
+- Node 18 EOL is 2025‑04‑30 → future‑proof for MVP cycle.
 
 ---
 
 ## 3 Caching Strategy
 
-* **pnpm Cache** – handled automatically by `actions/setup-node@v4` when `cache: pnpm` is set.
-* **Expo / EAS** – not required for the mock job; full builds run in the nightly workflow.
-* **Paths cached**
-  * Linux: `~/.local/share/pnpm/store/v3` (global content-addressable store)
+- **pnpm Cache** – handled automatically by `actions/setup-node@v4` when `cache: pnpm` is set.
+- **Expo / EAS** – not required for the mock job; full builds run in the nightly workflow.
+- **Paths cached**
+  - Linux: `~/.local/share/pnpm/store/v3` (global content-addressable store)
 
 Caches key off **`node-version + pnpm-lock.yaml`** hash to ensure invalidation when dependencies change.
 
@@ -77,7 +77,7 @@ jobs:
           esac
 ```
 
-*The matrix allows the three checks to run **in parallel** while sharing the same cache layer.*
+_The matrix allows the three checks to run **in parallel** while sharing the same cache layer._
 
 ---
 

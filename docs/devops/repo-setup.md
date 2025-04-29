@@ -2,33 +2,33 @@
 
 > **Location**: `docs/devops/repo-setup.md`  
 > **Audience**: DevOps / Repo Admin  
-> **Goal**: Establish a clean, enforceable baseline before the first line of code lands in *ToolFusion*.
+> **Goal**: Establish a clean, enforceable baseline before the first line of code lands in _ToolFusion_.
 
 ---
 
 ## 1 Repository Naming
 
-| Pattern | Example | Rationale |
-| -------- | ------- | --------- |
+| Pattern             | Example             | Rationale                                                              |
+| ------------------- | ------------------- | ---------------------------------------------------------------------- |
 | `toolfusion-mobile` | `toolfusion-mobile` | Clear product scope; suffix mirrors platform (mobile / server / docs). |
-| `toolfusion-design` | `toolfusion-design` | Keeps UX artefacts isolated while retaining mono‑org discoverability. |
+| `toolfusion-design` | `toolfusion-design` | Keeps UX artefacts isolated while retaining mono‑org discoverability.  |
 
-> 🔖 **Rule**: all repos live under the `ToolFusion` GitHub org; names are *kebab‑case*, lowercase, no spaces.
+> 🔖 **Rule**: all repos live under the `ToolFusion` GitHub org; names are _kebab‑case_, lowercase, no spaces.
 
 ---
 
 ## 2 Branch Protection (`main`)
 
-1. **Require status checks** ‑ *lint / test / mock* job trio must pass.  
+1. **Require status checks** ‑ _lint / test / mock_ job trio must pass.
    ```text
    Settings → Branches → Branch protection rules → main
       ☑ Require status checks to pass before merging
           ✓ lint-test-mock (GitHub Actions)
    ```
-2. **Require PR reviews** – *≥1 approval*; code owners auto‑request for critical paths.
+2. **Require PR reviews** – _≥1 approval_; code owners auto‑request for critical paths.
 3. **Restrict direct pushes** – only GitHub Apps (e.g., `dependabot[bot]`) allowed.
 4. **Require signed commits** (optional but recommended).
-5. **Linear history** – *squash* or *rebase & merge*; disable merge‑commits.
+5. **Linear history** – _squash_ or _rebase & merge_; disable merge‑commits.
 
 ➡️ Create the rule before the first push, so the inaugural commit (README) is merged via PR.
 
@@ -36,18 +36,18 @@
 
 ## 3 Commit Conventions
 
-We adopt **[Conventional Commits 1.0](https://www.conventionalcommits.org/en/v1.0.0/)** with *Emoji prefix* for readability.
+We adopt **[Conventional Commits 1.0](https://www.conventionalcommits.org/en/v1.0.0/)** with _Emoji prefix_ for readability.
 
-| Type | Emoji | Examples |
-|------|-------|----------|
-| `feat` | ✨ | `✨ feat: create Workflow Composer drag‑drop` |
-| `fix` | 🐛 | `🐛 fix: handle image >4 MB in Qwen Vision` |
-| `docs` | 📝 | `📝 docs: add repo‑setup guide` |
-| `chore` | 🔧 | `🔧 chore: bump Expo SDK 50` |
-| `test` | ✅ | `✅ test: add timeout retry scenario TC‑006` |
-| `refactor` | ♻️ | `♻️ refactor: extract ToolRuntime hook` |
+| Type       | Emoji | Examples                                      |
+| ---------- | ----- | --------------------------------------------- |
+| `feat`     | ✨    | `✨ feat: create Workflow Composer drag‑drop` |
+| `fix`      | 🐛    | `🐛 fix: handle image >4 MB in Qwen Vision`   |
+| `docs`     | 📝    | `📝 docs: add repo‑setup guide`               |
+| `chore`    | 🔧    | `🔧 chore: bump Expo SDK 50`                  |
+| `test`     | ✅    | `✅ test: add timeout retry scenario TC‑006`  |
+| `refactor` | ♻️    | `♻️ refactor: extract ToolRuntime hook`       |
 
-**Commit‑lint** runs in the PR CI pipeline (husky ↔ `commitlint`). Failing messages abort `git commit` locally *and* block CI.
+**Commit‑lint** runs in the PR CI pipeline (husky ↔ `commitlint`). Failing messages abort `git commit` locally _and_ block CI.
 
 ---
 
@@ -56,6 +56,7 @@ We adopt **[Conventional Commits 1.0](https://www.conventionalcommits.org/en/v
 We use **GitHub Actions ‑ labeler** to tag PRs / Issues based on file paths and title keywords.
 
 ### `.github/labeler.yml` (excerpt)
+
 ```yaml
 # docs / markdown
 📝 docs:
@@ -77,6 +78,7 @@ We use **GitHub Actions ‑ labeler** to tag PRs / Issues based on file paths a
 ```
 
 ### Automation Workflow
+
 ```yaml
 # .github/workflows/auto-label.yml
 name: Auto‐Label
@@ -96,7 +98,7 @@ jobs:
           sync-labels: true
 ```
 
-*Issues* use **GitHub Forms** templates; each template pre‑selects a default label (e.g., `bug`, `feat‑request`).
+_Issues_ use **GitHub Forms** templates; each template pre‑selects a default label (e.g., `bug`, `feat‑request`).
 
 ---
 
@@ -104,10 +106,9 @@ jobs:
 
 - [ ] Create repo under ToolFusion org using correct name.
 - [ ] Push initial `README.md` via PR to trigger protection checks.
-- [ ] Configure *main* branch protection (section 2).
+- [ ] Configure _main_ branch protection (section 2).
 - [ ] Enable **Commit sign‑off** & **Squash merge**.
 - [ ] Add `.github/labeler.yml` & `auto-label.yml`; verify on a test PR.
 - [ ] Add `commitlint` + husky pre‑commit hook to root `package.json`.
 
-> With these guard‑rails, every merge is linted, tested, mock‑verified, labelled, and review‑approved — keeping *ToolFusion* 🚢 ship‑shape from day 0.
-
+> With these guard‑rails, every merge is linted, tested, mock‑verified, labelled, and review‑approved — keeping _ToolFusion_ 🚢 ship‑shape from day 0.

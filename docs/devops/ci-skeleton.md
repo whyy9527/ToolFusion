@@ -9,18 +9,18 @@
 
 ## 1 工作流触发
 
-| 触发器 | 分支 | 说明 |
-|--------|------|------|
+| 触发器         | 分支              | 说明                                                  |
+| -------------- | ----------------- | ----------------------------------------------------- |
 | `pull_request` | `main`, `develop` | PR 必须通过此工作流方可合并（配合 Branch Protection） |
-| `push` | `main`, `develop` | 直接推送也跑一次，防止漏网之鱼 |
+| `push`         | `main`, `develop` | 直接推送也跑一次，防止漏网之鱼                        |
 
 ---
 
 ## 2 运行时要求
 
-* **Node LTS v20** — 与 Expo SDK 兼容
-* **Package Manager**：pnpm 8+
-* 自动缓存 pnpm store (`actions/setup-node@v4 cache: pnpm`)
+- **Node LTS v20** — 与 Expo SDK 兼容
+- **Package Manager**：pnpm 8+
+- 自动缓存 pnpm store (`actions/setup-node@v4 cache: pnpm`)
 
 ---
 
@@ -60,7 +60,7 @@ jobs:
           pnpm test --ci --passWithNoTests # Use pnpm script
 ```
 
-> *`pnpm test --passWithNoTests`* 确保当正式测试文件尚未加入时，流水线依旧返回成功。
+> _`pnpm test --passWithNoTests`_ 确保当正式测试文件尚未加入时，流水线依旧返回成功。
 
 ---
 
@@ -71,4 +71,3 @@ jobs:
 3. **Coverage 上传** ➜ 集成 `codecov/codecov‑action` 将 Jest 覆盖率报告到仪表盘
 
 > 保持 `ci.yml` 极简能让新同学快速理解，再逐步扩展至 Nightly build、Mock 测试等高级阶段。
-
