@@ -1,16 +1,18 @@
 # Tool Runtime Interface v0.1
 
-> **Status **: Draft – 2025‑04‑29  
-> **Owner **: AI Architect (DeepSeek / Qwen)
+> **Status**: Draft – 2025‑04‑29  
+> **Owner**: AI Architect (DeepSeek / Qwen)
 
 ---
 
 ## 1 Overview
+
 This document定义了 *Tool Invoke* 统一接口，用于前端（React Native）或工作流引擎调用已注册 **LocalTool**。接口支持流式返回与统一指标埋点，并附带 Mock 方案便于离线调试。
 
 ---
 
 ## 2 API 入口
+
 | Method | Path | Description |
 |--------|------|-------------|
 | `POST` | `/v1/tool-invoke` | 调用指定 Tool，支持 SSE 增量返回或一次性 JSON |
@@ -22,6 +24,7 @@ This document定义了 *Tool Invoke* 统一接口，用于前端（React Nativ
 ## 3 字段参考（v0.1）
 
 ### 3.1 `ToolInvokeRequest`
+
 | 字段 | 类型 | 必填 | 说明 |
 |------|------|------|------|
 | `toolId` | `string` | ✓ | 对应 `LocalTool.id` |
@@ -33,6 +36,7 @@ This document定义了 *Tool Invoke* 统一接口，用于前端（React Nativ
 | `meta` | `{ locale?:string;<br>clientTime?:string }` | – | 客户端信息 |
 
 ### 3.2 `ToolInvokeChunk`
+
 | 字段 | 类型 | 必填 | 说明 |
 |------|------|------|------|
 | `invocationId` | `string` | ✓ | 与请求对应 |
@@ -46,6 +50,7 @@ This document定义了 *Tool Invoke* 统一接口，用于前端（React Nativ
 ---
 
 ## 4 时序图
+
 ```mermaid
 sequenceDiagram
 actor Client
@@ -66,7 +71,9 @@ Frontend-->>Client: finalize + usage / metrics
 ---
 
 ## 5 Mock 数据示例
+
 ### 5.1 请求样例 (`deepseek_chat`)
+
 ```jsonc
 {
   "toolId": "deepseek_chat",
@@ -79,6 +86,7 @@ Frontend-->>Client: finalize + usage / metrics
 ```
 
 ### 5.2 SSE 返回片段
+
 ```jsonc
 // event: message
 data: { "invocationId":"inv_001", "index":0, "delta":"The ", "done":false, "metrics":{"latencyMs":420} }
@@ -92,6 +100,7 @@ data: { "invocationId":"inv_001", "index":12, "delta":"users.", "done":true, "us
 ---
 
 ## 6 本地模拟伪代码
+
 ```ts
 // ./scripts/localMock.ts
 import { createServer } from 'http';
@@ -124,12 +133,65 @@ createServer((req, res) => {
   }
 }).listen(7078, () => console.log('Mock runtime listening on port 7078'));
 ```
+
 > 运行：`ts-node scripts/localMock.ts`，前端在 `.env` 中设置 `TOOL_ENDPOINT=http://127.0.0.1:7078` 即可脱机调试。
 
 ---
 
-## 7 变更记录
+## 7 Mock Runtime PoC (0‑6)
+
+### 7.1 最小脚本 `scripts/localMock.ts`
+
+```ts
+import { createServer } from 'http';
+
+// 🌱 PoC: always respond "Hello ToolRuntime" as SSE or plain text
+createServer((req, res) => {
+  if (req.method === 'POST' && req.url === '/v1/tool-invoke') {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+    });
+    res.write(`data: Hello ToolRuntime
+
+`);
+    res.end();
+  } else {
+    res.writeHead(404);
+    res.end();
+  }
+}).listen(7078, () => console.log('Mock runtime PoC on :7078'));
+```
+
+### 7.2 运行与验证
+
+1. 启动 Mock：
+
+   ```bash
+   pnpm dlx ts-node scripts/localMock.ts
+   ```
+
+2. 打开新终端，执行 cURL：
+
+   ```bash
+   curl -X POST -H "Content-Type: application/json" \
+        -d '{"toolId":"ping","sessionId":"s1","invocationId":"i1","input":{}}' \
+        http://127.0.0.1:7078/v1/tool-invoke
+   ```
+
+   应输出：
+
+   ```
+   data: Hello ToolRuntime
+   ```
+
+3. 若需一次性 JSON 流程，可删掉 SSE 头，将 `res.writeHead` 的 `Content-Type` 改为 `application/json`。
+
+> ✅ 以上步骤即满足 "0‑6 Mock Runtime PoC" 需求。
+
+变更记录
+
 | 版本 | 日期 | 说明 |
 |------|------|------|
 | 0.1 | 2025‑04‑29 | 首版：请求/响应字段、Mermaid 时序图、Mock 样例、伪代码 |
-

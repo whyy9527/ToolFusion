@@ -1,0 +1,100 @@
+# 0‑2 基础依赖 & Lint — **bootstrap.patch**
+
+本补丁文件演示 **ToolFusion** 项目在 *Sprint 0–2* 阶段一次性引入 **React Native + TypeScript + ESLint + Prettier + Husky** 的最小改动。可直接 `git apply`，或将片段复制到对应文件。
+
+> ⚠️ 假设项目已由 `create-expo` 初始化（Expo SDK 50 / React Native 0.74）。包管理器使用 **pnpm 8 (workspace)**。
+
+---
+
+## A 安装命令列表
+```bash
+# 1 初始化仓库（若未执行）
+mkdir ToolFusion && cd ToolFusion && git init
+
+# 2 Expo + TS 模板
+pnpm dlx create-expo@latest . --template expo-template-blank-typescript
+
+# 3 工作区根安装 dev 依赖
+pnpm add -w -D \
+  eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin \
+  @react-native-community/eslint-config \
+  eslint-plugin-prettier eslint-config-prettier \
+  prettier \
+  husky lint-staged
+
+# 4 初始化 Husky & 钩子
+pnpm dlx husky-init && pnpm husky install
+
+# 5 添加 pre‑commit 钩子：格式化 & Lint
+npx husky add .husky/pre-commit "pnpm prettier:check && pnpm lint:staged"
+```
+
+---
+
+## B bootstrap.patch
+```diff
+# 🤖 统一补丁，保存为 bootstrap.patch
+# git apply --reject --whitespace=fix bootstrap.patch
+
+@@
+ ## 根 package.json 追加脚本
+   "scripts": {
++    "dev": "expo start --clear",
++    "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
++    "prettier:check": "prettier --check \"**/*.{js,jsx,ts,tsx,md}\"",
++    "prettier:write": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
++    "lint:staged": "lint-staged"
+   },
++  "lint-staged": {
++    "*.{js,jsx,ts,tsx}": ["prettier --write", "eslint --fix"],
++    "*.{json,md}": ["prettier --write"]
++  },
+@@
+ "devDependencies": {
++    "@react-native-community/eslint-config": "^4.0.0",
++    "@typescript-eslint/eslint-plugin": "^7.0.0",
++    "@typescript-eslint/parser": "^7.0.0",
++    "eslint": "^9.0.0",
++    "eslint-config-prettier": "^9.0.0",
++    "eslint-plugin-prettier": "^5.0.0",
++    "husky": "^9.0.0",
++    "lint-staged": "^15.0.0",
++    "prettier": "^3.2.0"
+ }
+```
+
+### ➕ eslint.config.cjs (新增)
+```diff
++/** @type {import('eslint').Linter.Config} */
++module.exports = {
++  root: true,
++  extends: [
++    '@react-native-community',
++    'plugin:@typescript-eslint/recommended',
++    'prettier'
++  ],
++  parser: '@typescript-eslint/parser',
++  plugins: ['@typescript-eslint', 'prettier'],
++  rules: {
++    'prettier/prettier': ['error']
++  }
++};
+```
+
+### ➕ pnpm-workspace.yaml (新增或追加)
+```diff
++packages:
++  - apps/*
++  - packages/*
++  - . # 根包（Expo App）
+```
+
+---
+
+## C 后续验证
+1. **格式化**：`pnpm prettier:write`
+2. **静态检查**：`pnpm lint`
+3. **提交钩子**：`git commit -m 'chore: bootstrap lint'` → 自动执行 Prettier + ESLint
+
+> 如需自定义规则，请在 `eslint.config.cjs` 内增删 `rules` 字段，或添加 `prettier.config.cjs`。
+
