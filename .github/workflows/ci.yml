@@ -16,6 +16,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+        cache: 'pnpm' # Add pnpm caching
+    - run: pnpm install --frozen-lockfile # Replace npm ci with pnpm install
+    - run: pnpm run build --if-present # Replace npm with pnpm
+    - run: pnpm test # Replace npm with pnpm

@@ -126,18 +126,18 @@ interface LocalTool {
 
 ```bash
 # 1. Clone
-$ git clone https://github.com/yourorg/toolfusion.git
-$ cd toolfusion
+$ git clone https://github.com/whyy9527/ToolFusion
+$ cd ToolFusion
 
-# 2. Install (Node 20 + Yarn 3)
-$ corepack enable              # 确保使用 Berry
-$ yarn install --immutable      # 读取 .yarnrc.yml + PnP
+# 2. Install (Node 20 + pnpm)
+# corepack enable              # No longer needed with pnpm directly
+$ pnpm install --frozen-lockfile # Reads pnpm-lock.yaml
 
 # 3. Run (Expo & Mock 后端)
-$ yarn dev                     # 等同于: expo start -- --mock
+$ pnpm dev                     # 等同于: expo start -- --mock
 #  ↳ 若需真机 / 模拟器
-$ yarn ios                     # iOS Simulator
-$ yarn android                 # Android Emulator
+$ pnpm ios                     # iOS Simulator
+$ pnpm android                 # Android Emulator
 ```
 
 > **提示**：默认启用 `--mock` 标志，前端将绑定本地 `scripts/localMock.ts`，无需 DeepSeek/Qwen 真实服务即可开发。

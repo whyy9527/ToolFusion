@@ -21,7 +21,7 @@
 | Setting | Value |
 |---------|-------|
 | **Node.js** | **v20.x** (LTS) – aligns with Expo SDK 50 support |
-| **Package Manager** | Yarn 3 (Berry) |
+| **Package Manager** | pnpm 8+ |
 
 ### Why Node 20?
 
@@ -32,13 +32,12 @@
 
 ## 3 Caching Strategy
 
-* **Yarn Cache** – handled automatically by `actions/setup-node@v4` when `cache: yarn` is set.
+* **pnpm Cache** – handled automatically by `actions/setup-node@v4` when `cache: pnpm` is set.
 * **Expo / EAS** – not required for the mock job; full builds run in the nightly workflow.
 * **Paths cached**
-  * Linux: `~/.cache/yarn` (package tarballs)
-  * Project: `.yarn/cache` (Plug’n’Play artefacts)
+  * Linux: `~/.local/share/pnpm/store/v3` (global content-addressable store)
 
-Caches key off **`node-version + yarn.lock`** hash to ensure invalidation when dependencies change.
+Caches key off **`node-version + pnpm-lock.yaml`** hash to ensure invalidation when dependencies change.
 
 ---
 
@@ -61,20 +60,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node 20 & Yarn cache
+      - name: Use Node 20 & pnpm cache
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
+          cache: pnpm # Use pnpm's cache
 
-      - run: yarn install --immutable
+      - run: pnpm install --frozen-lockfile # Use pnpm install
 
       - name: Run ${{ matrix.job }}
         run: |
           case "${{ matrix.job }}" in
-            lint) yarn lint ;;
-            test) yarn test --ci ;;
-            mock) yarn test:mock ;;   # invokes jest/integration hitting mock‑adapter
+            lint) pnpm lint ;; # Use pnpm script
+            test) pnpm test --ci ;; # Use pnpm script
+            mock) pnpm test:mock ;;   # invokes jest/integration hitting mock‑adapter # Use pnpm script
           esac
 ```
 

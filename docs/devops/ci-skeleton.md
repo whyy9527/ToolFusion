@@ -19,8 +19,8 @@
 ## 2 运行时要求
 
 * **Node LTS v20** — 与 Expo SDK 兼容
-* **Package Manager**：Yarn 3（Berry）
-* 自动缓存 Yarn 离线包 & PnP artefacts (`actions/setup-node@v4 cache: yarn`)
+* **Package Manager**：pnpm 8+
+* 自动缓存 pnpm store (`actions/setup-node@v4 cache: pnpm`)
 
 ---
 
@@ -41,26 +41,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node 20 & Yarn cache
+      - name: Use Node 20 & pnpm cache
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
+          cache: pnpm # Use pnpm's cache
 
-      - run: yarn install --immutable
+      - run: pnpm install --frozen-lockfile # Use pnpm install
 
       # ① Lint：ESLint + Prettier
       - name: Lint
-        run: yarn lint
+        run: pnpm lint # Use pnpm script
 
       # ② 测试：目前为空测试，占位保证命令成功
       - name: Empty Jest Suite
         run: |
           echo "test('placeholder', () => expect(true).toBe(true));" > __tests__/placeholder.test.ts
-          yarn test --ci --passWithNoTests
+          pnpm test --ci --passWithNoTests # Use pnpm script
 ```
 
-> *`yarn test --passWithNoTests`* 确保当正式测试文件尚未加入时，流水线依旧返回成功。
+> *`pnpm test --passWithNoTests`* 确保当正式测试文件尚未加入时，流水线依旧返回成功。
 
 ---
 

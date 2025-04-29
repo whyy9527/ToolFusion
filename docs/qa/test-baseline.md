@@ -8,7 +8,7 @@ Location: `docs/qa/test-baseline.md`
 
 为 **Sprint 0‑4** 提供最小可跑通的测试框架基线，确保：
 
-* `yarn test` **开箱即用**，无任何业务依赖即可通过
+* `pnpm test` **开箱即用**，无任何业务依赖即可通过
 * 覆盖 React Native 组件渲染、纯函数单测
 * 与后续 **coverage gate**、CI 流程兼容
 
@@ -33,7 +33,7 @@ Location: `docs/qa/test-baseline.md`
 node -v   # v20.*
 
 # 项目依赖已安装
-yarn install --immutable
+pnpm install --frozen-lockfile
 ```
 
 ---
@@ -44,7 +44,7 @@ yarn install --immutable
 
 ```bash
 # 1️⃣ 全量执行 + 行覆盖率
-$ yarn test
+$ pnpm test
 ```
 
 默认脚本在 `package.json`：
@@ -62,7 +62,7 @@ $ yarn test
 ### 4.2 只跑改动文件关联测试
 
 ```bash
-yarn test:changed path/to/changedFile.tsx
+pnpm test:changed path/to/changedFile.tsx
 ```
 
 ### 4.3 持续集成 (GitHub Actions)
@@ -70,7 +70,7 @@ yarn test:changed path/to/changedFile.tsx
 CI 会使用
 
 ```bash
-yarn test --ci --runInBand
+pnpm test --ci --runInBand
 ```
 
 参数说明：
@@ -136,7 +136,7 @@ describe("Baseline", () => {
 });
 ```
 
-运行 `yarn test` 应看到：
+运行 `pnpm test` 应看到：
 
 ```
 PASS  src/__tests__/sanity.test.ts
