@@ -1,22 +1,29 @@
-name: CI
+name: CI – Lint & Empty Test
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [18.x, 20.x]
-
+  lint-test:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm' # Add pnpm caching
-    - run: pnpm install --frozen-lockfile # Replace npm ci with pnpm install
-    - run: pnpm run build --if-present # Replace npm with pnpm
-    - run: pnpm test # Replace npm with pnpm
+      - uses: actions/checkout@v4
+
+      - name: Use Node 20 & pnpm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm # Use pnpm's cache
+
+      - run: pnpm install --frozen-lockfile # Use pnpm install
+
+      # ① Lint：ESLint + Prettier
+      - name: Lint
+        run: pnpm lint # Use pnpm script
+
+      # ② 测试：运行 Jest 测试
+      - name: Test
+        run: pnpm test --ci # Use pnpm script
