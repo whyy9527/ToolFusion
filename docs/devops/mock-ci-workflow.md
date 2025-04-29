@@ -1,6 +1,6 @@
 # Mock CI Workflow
 
-> **Scope**: This document describes the additional **`mock`** job added to our GitHub Actions pipeline alongside existing **lint** and **test** jobs. It also records the required Node version and the caching strategy used to speed‑up installs.
+> **Scope**: This document describes the additional **`mock`** job added to our GitHub Actions pipeline (located at `.github/workflows/ci.yml`) alongside existing **lint** and **test** jobs. It also records the required Node version and the caching strategy used to speed‑up installs.
 
 ---
 
