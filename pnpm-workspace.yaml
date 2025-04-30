@@ -1,4 +1,0 @@
-packages:
-  # - apps/* # Example if using monorepo structure later
-  # - packages/* # Example if using monorepo structure later
-  - '.' # Include the root package (Expo App)
