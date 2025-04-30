@@ -9,17 +9,15 @@ const compat = new FlatCompat({
   resolvePluginsRelativeTo: __dirname,
 });
 
-module.exports = tseslint.config(
+module.exports = [
   // Base config from @react-native-community (using FlatCompat)
-  // This likely includes necessary TypeScript rules and the plugin
   ...compat.config(reactNativeCommunity),
 
   // Prettier integration (using FlatCompat)
   ...compat.extends("plugin:prettier/recommended"),
 
-  // Custom rules and language options (ensure parser is set if not covered by community config)
+  // Ignore configuration files from project-based parsing
   {
-    // Ignore configuration files from project-based parsing
     ignores: [
       "eslint.config.js",
       "jest.config.ts",
@@ -28,14 +26,21 @@ module.exports = tseslint.config(
       ".expo/**/*",
       "coverage/**/*",
     ],
+  },
+
+  // Override for TypeScript/TSX files
+  {
+    files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
         project: "./tsconfig.json",
+        ecmaVersion: 2020,
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
-    rules: {
-      // Add any project-specific overrides here
-    },
   },
-);
+];
