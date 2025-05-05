@@ -1,4 +1,1 @@
-import "@testing-library/jest-native/extend-expect";
-
-// Global mocks can be added here if needed later
-// e.g., jest.mock("react-native-mmkv", () => ({ /* mock implementation */ }));
+// (已移除 @testing-library/jest-native/extend-expect，因其已被合并进 @testing-library/react-native，无需单独引入)
