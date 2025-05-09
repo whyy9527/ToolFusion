@@ -16,14 +16,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn # Use yarn's cache
+          cache: yarn
 
-      - run: yarn install --frozen-lockfile # Use yarn install
+      - run: yarn install --frozen-lockfile
 
-      # ① Lint：ESLint + Prettier
       - name: Lint
-        run: yarn lint # Use yarn script
+        run: yarn lint
 
-      # ② 测试：运行 Jest 测试
       - name: Test
-        run: yarn test --ci # Use yarn script
+        run: yarn test --ci
