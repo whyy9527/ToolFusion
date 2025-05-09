@@ -143,7 +143,7 @@ createServer((req, res) => {
 }).listen(7078, () => console.log("Mock runtime listening on port 7078"));
 ```
 
-> 运行：`ts-node scripts/localMock.ts`，前端在 `.env` 中设置 `TOOL_ENDPOINT=http://127.0.0.1:7078` 即可脱机调试。
+> 运行：`yarn dlx ts-node scripts/localMock.ts`，前端在 `.env` 中设置 `TOOL_ENDPOINT=http://127.0.0.1:7078` 即可脱机调试。
 
 ---
 
@@ -178,7 +178,7 @@ createServer((req, res) => {
 1. 启动 Mock：
 
    ```bash
-   pnpm dlx ts-node scripts/localMock.ts
+   yarn dlx ts-node scripts/localMock.ts
    ```
 
 2. 打开新终端，执行 cURL：
@@ -191,7 +191,7 @@ createServer((req, res) => {
 
    应输出：
 
-   ```
+   ```text
    data: Hello ToolRuntime
    ```
 

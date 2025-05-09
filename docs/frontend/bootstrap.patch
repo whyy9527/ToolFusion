@@ -2,7 +2,7 @@
 
 本补丁文件演示 **ToolFusion** 项目在 *Sprint 0–2* 阶段一次性引入 **React Native + TypeScript + ESLint + Prettier + Husky** 的最小改动。可直接 `git apply`，或将片段复制到对应文件。
 
-> ⚠️ 假设项目已由 `create-expo` 初始化（Expo SDK 50 / React Native 0.74）。包管理器使用 **pnpm 8 (workspace)**。
+> ⚠️ 假设项目已由 `create-expo` 初始化（Expo SDK 50 / React Native 0.74）。包管理器使用 **yarn 1 (classic)**。
 
 ---
 
@@ -12,10 +12,10 @@
 mkdir ToolFusion && cd ToolFusion && git init
 
 # 2 Expo + TS 模板
-pnpm dlx create-expo@latest . --template expo-template-blank-typescript
+yarn dlx create-expo@latest . --template expo-template-blank-typescript
 
 # 3 工作区根安装 dev 依赖
-pnpm add -w -D \
+yarn add -D \
   eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin \
   @react-native-community/eslint-config \
   eslint-plugin-prettier eslint-config-prettier \
@@ -23,10 +23,10 @@ pnpm add -w -D \
   husky lint-staged
 
 # 4 初始化 Husky & 钩子
-pnpm dlx husky-init && pnpm husky install
+yarn dlx husky-init && yarn husky install
 
 # 5 添加 pre‑commit 钩子：格式化 & Lint
-npx husky add .husky/pre-commit "pnpm prettier:check && pnpm lint:staged"
+npx husky add .husky/pre-commit "yarn prettier:check && yarn lint:staged"
 ```
 
 ---
@@ -92,8 +92,8 @@ npx husky add .husky/pre-commit "pnpm prettier:check && pnpm lint:staged"
 ---
 
 ## C 后续验证
-1. **格式化**：`pnpm prettier:write`
-2. **静态检查**：`pnpm lint`
+1. **格式化**：`yarn prettier:write`
+2. **静态检查**：`yarn lint`
 3. **提交钩子**：`git commit -m 'chore: bootstrap lint'` → 自动执行 Prettier + ESLint
 
 > 如需自定义规则，请在 `eslint.config.cjs` 内增删 `rules` 字段，或添加 `prettier.config.cjs`。

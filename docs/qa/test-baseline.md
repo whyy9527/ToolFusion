@@ -8,7 +8,7 @@ Location: `docs/qa/test-baseline.md`
 
 为 **Sprint 0‑4** 提供最小可跑通的测试框架基线，确保：
 
-- `pnpm test` **开箱即用**，无任何业务依赖即可通过
+- `yarn test` **开箱即用**，无任何业务依赖即可通过
 - 覆盖 React Native 组件渲染、纯函数单测
 - 与后续 **coverage gate**、CI 流程兼容
 
@@ -33,7 +33,7 @@ Location: `docs/qa/test-baseline.md`
 node -v   # v20.*
 
 # 项目依赖已安装
-pnpm install --frozen-lockfile
+yarn install --frozen-lockfile
 ```
 
 ---
@@ -44,7 +44,7 @@ pnpm install --frozen-lockfile
 
 ```bash
 # 1️⃣ 全量执行 + 行覆盖率
-$ pnpm test
+$ yarn test
 ```
 
 默认脚本在 `package.json`：
@@ -62,7 +62,7 @@ $ pnpm test
 ### 4.2 只跑改动文件关联测试
 
 ```bash
-pnpm test:changed path/to/changedFile.tsx
+yarn test:changed path/to/changedFile.tsx
 ```
 
 ### 4.3 持续集成 (GitHub Actions)
@@ -70,7 +70,7 @@ pnpm test:changed path/to/changedFile.tsx
 CI 会使用
 
 ```bash
-pnpm test --ci --runInBand
+yarn test --ci --runInBand
 ```
 
 参数说明：
@@ -82,7 +82,7 @@ pnpm test --ci --runInBand
 
 ## 5 配置文件概览
 
-```
+```text
 ├── jest.config.ts       # Jest 主配置
 ├── jest.setup.ts        # 全局 beforeAll / afterEach
 ├── __mocks__/           # Manual mocks
@@ -136,9 +136,9 @@ describe("Baseline", () => {
 });
 ```
 
-运行 `pnpm test` 应看到：
+运行 `yarn test` 应看到：
 
-```
+```text
 PASS  src/__tests__/sanity.test.ts
  ✓ renders without crashing (XX ms)
 ----------|---------|----------|---------|---------|-------------------

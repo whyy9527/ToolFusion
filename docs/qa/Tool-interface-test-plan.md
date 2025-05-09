@@ -103,7 +103,7 @@ it("TC‑003 maps DeepSeek 4001 to auth ToolError", async () => {
 
 ## 6 Reporting
 
-- `pnpm test:interfaces` – runs only `src/__tests__/integration/interfaces.*`
+- `yarn test:interfaces` – runs only `src/__tests__/integration/interfaces.*`
 - `coverage/interfaces.html` – uploaded as CI artifact
 - Summary comment auto‑posted on PR with matrix ✅/❌.
 

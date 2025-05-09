@@ -6,7 +6,7 @@
 
 ## 0 开发者快捷启动 ⭐️
 
-> 仅需 **3 步** 即可在本地运行 ToolFusion MVP：
+> 仅需 **4 步** 即可在本地运行 ToolFusion MVP：
 
 ```bash
 # 1. Clone
@@ -18,13 +18,16 @@ $ cd ToolFusion
 $ yarn install --frozen-lockfile # Reads yarn-lock.yaml
 
 # 3. Run (Expo & Mock 后端)
-$ yarn dev                     # 等同于: expo start -- --mock
+$ yarn start                     # 启动前端（Expo）
 #  ↳ 若需真机 / 模拟器
 $ yarn ios                     # iOS Simulator
 $ yarn android                 # Android Emulator
+
+# 4. (可选) 启动本地 Mock 服务（如需脱机开发）
+$ yarn dlx ts-node scripts/localMock.ts
 ```
 
-> **提示**：默认启用 `--mock` 标志，前端将绑定本地 `scripts/localMock.ts`，无需 DeepSeek/Qwen 真实服务即可开发。
+> **提示**：如需本地 mock，需手动执行 `yarn ts-node scripts/localMock.ts` 启动 mock 服务，前端会自动绑定本地 `scripts/localMock.ts`，无需 DeepSeek/Qwen 真实服务即可开发。
 
 ---
 
@@ -85,7 +88,7 @@ interface LocalTool {
 
 ## 6 技术架构概览
 
-```
+```text
 [User] ─▶ [Chat UI] ─▶ [Workflow Composer] ─▶ [Agent Planner]
                     │                       │
                     │                       └─▶ ChainAgent Tool

@@ -12,18 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node 20 & pnpm cache
+      - name: Use Node 20 & yarn cache
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm # Use pnpm's cache
+          cache: yarn # Use yarn's cache
 
-      - run: pnpm install --frozen-lockfile # Use pnpm install
+      - run: yarn install --frozen-lockfile # Use yarn install
 
       # ① Lint：ESLint + Prettier
       - name: Lint
-        run: pnpm lint # Use pnpm script
+        run: yarn lint # Use yarn script
 
       # ② 测试：运行 Jest 测试
       - name: Test
-        run: pnpm test --ci # Use pnpm script
+        run: yarn test --ci # Use yarn script
